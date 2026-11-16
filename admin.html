@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administration — La CAV’</title>
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="admin.css">
+  <script src="firebase-config.js" defer></script><script src="data.js" defer></script><script src="admin.js" defer></script>
+</head>
+<body class="admin-body">
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <a class="admin-logo" href="index.html">la cav’<small>ESPACE ADMINISTRATION</small></a>
+      <p class="side-label">VOTRE ESPACE</p>
+      <nav class="admin-nav" aria-label="Administration">
+        <button type="button" class="active" data-page="overview"><span aria-hidden="true">◫</span> Vue d’ensemble</button>
+        <button type="button" data-page="products"><span aria-hidden="true">◈</span> Articles</button>
+        <button type="button" data-page="categories"><span aria-hidden="true">▤</span> Collections</button>
+        <button type="button" data-page="customers"><span aria-hidden="true">♙</span> Clients</button>
+        <button type="button" data-page="firebase"><span aria-hidden="true">⌘</span> Firebase</button>
+      </nav>
+      <div class="sidebar-bottom"><span class="mode-dot"></span><span id="side-mode">MODE LOCAL</span><a href="index.html">← Retour à la boutique</a></div>
+    </aside>
+    <main class="admin-main">
+      <header class="admin-header"><div><span class="admin-breadcrumb">LA CAV’ / ADMINISTRATION</span><h1 id="page-title">Vue d’ensemble</h1></div><div class="admin-header-actions"><span class="admin-badge" id="mode-badge">Prototype local</span><a href="index.html">Voir la boutique ↗</a></div></header>
+      <div class="admin-content">
+        <div class="admin-alert" id="mode-notice">Mode local de démonstration : les données sont stockées dans ce navigateur et ne sont pas protégées. Ne saisissez aucune donnée personnelle réelle.</div>
+        <p id="feedback" class="feedback" role="status" aria-live="polite" hidden></p>
+
+        <section data-panel="overview">
+          <div class="welcome"><div><p class="admin-kicker">VOTRE TABLEAU DE BORD ✳</p><h2>Bienvenue dans<br><em>les coulisses.</em></h2><p>Un espace pour organiser vos articles, vos collections et préparer votre communauté.</p><button class="admin-btn light" data-goto="products" type="button">Gérer les articles ↗</button></div><div class="welcome-mark">✳</div></div>
+          <div class="stat-grid"><article><span>CATALOGUE</span><strong id="stat-products">—</strong><p>Articles au total</p></article><article><span>EN LIGNE</span><strong id="stat-published">—</strong><p>Articles publiés</p></article><article><span>COLLECTIONS</span><strong id="stat-categories">—</strong><p>Catégories créées</p></article><article><span>COMMUNAUTÉ</span><strong id="stat-customers">—</strong><p>Profils clients</p></article></div>
+          <div class="panel-card"><div class="card-heading"><div><p class="admin-kicker">POUR BIEN COMMENCER</p><h2>Votre espace, à votre rythme.</h2></div></div><div class="quick-grid"><button type="button" data-goto="products"><b>01</b><strong>Créer un article</strong><span>Ajoutez une fiche à votre catalogue. ↗</span></button><button type="button" data-goto="categories"><b>02</b><strong>Organiser vos collections</strong><span>Classez vos trouvailles par univers. ↗</span></button><button type="button" data-goto="firebase"><b>03</b><strong>Configurer Firebase</strong><span>Préparez votre base et l’identification. ↗</span></button></div></div>
+        </section>
+
+        <section data-panel="products" hidden>
+          <div class="panel-card"><div class="card-heading"><div><p class="admin-kicker">VOTRE CATALOGUE</p><h2>Les articles</h2><p>Créez, modifiez, publiez ou archivez vos fiches.</p></div><button class="admin-btn" id="new-product" type="button">+ Nouvel article</button></div>
+            <label class="admin-search"><span>⌕</span><input id="product-search" type="search" placeholder="Rechercher un article"></label>
+            <div class="table-wrap"><table><thead><tr><th>ARTICLE</th><th>COLLECTION</th><th>PRIX</th><th>STATUT</th><th>ACTIONS</th></tr></thead><tbody id="products-table"></tbody></table></div><p class="table-empty" id="products-empty" hidden>Aucun article à afficher.</p>
+          </div>
+        </section>
+
+        <section data-panel="categories" hidden>
+          <div class="panel-card"><div class="card-heading"><div><p class="admin-kicker">ORGANISER LE CATALOGUE</p><h2>Les collections</h2><p>Les collections correspondent aux catégories des articles.</p></div><button class="admin-btn" id="new-category" type="button">+ Nouvelle collection</button></div><div id="categories-list" class="collection-list"></div><p class="table-empty" id="categories-empty" hidden>Aucune collection pour le moment.</p></div>
+        </section>
+
+        <section data-panel="customers" hidden>
+          <div class="panel-card"><div class="card-heading"><div><p class="admin-kicker">VOTRE COMMUNAUTÉ</p><h2>Les clients</h2><p>Consultez et modifiez les profils clients. Les identifiants sont gérés par Firebase Authentication.</p></div><button class="admin-btn" id="new-customer" type="button">+ Profil de démonstration</button></div>
+            <div class="subtle-notice">Un profil n’est pas un compte de connexion. En mode Firebase, les clients créent leur compte depuis « Mon compte » ; la gestion des identifiants et leur suppression se font dans la console Firebase Authentication.</div>
+            <div class="table-wrap"><table><thead><tr><th>NOM</th><th>E-MAIL</th><th>CRÉÉ LE</th><th>ACTIONS</th></tr></thead><tbody id="customers-table"></tbody></table></div><p class="table-empty" id="customers-empty" hidden>Aucun profil client pour le moment.</p>
+          </div>
+        </section>
+
+        <section data-panel="firebase" hidden>
+          <div class="firebase-grid">
+            <div class="panel-card"><p class="admin-kicker">CONNEXION AU PROJET</p><h2>Firebase</h2><p>Renseignez la configuration Web de votre projet. Elle sera enregistrée dans ce navigateur et utilisée par la boutique et l’administration.</p>
+              <div class="subtle-notice">La clé API Web identifie le projet, elle ne protège pas la base. N’utilisez jamais de clé privée ou de fichier de compte de service ici. Publiez d’abord les règles Firestore fournies.</div>
+              <form id="config-form" class="admin-form"><label>API key<input name="apiKey" required autocomplete="off"></label><label>Auth domain<input name="authDomain" required placeholder="votre-projet.firebaseapp.com"></label><label>Project ID<input name="projectId" required></label><label>App ID<input name="appId" required></label><div class="form-actions"><button class="admin-btn" type="submit">Enregistrer et activer</button><button class="admin-btn secondary" id="reset-config" type="button">Effacer la configuration du navigateur</button></div></form><p class="helper">Une configuration présente dans firebase-config.js reste active après effacement.</p>
+            </div>
+            <div class="panel-card"><p class="admin-kicker">ACCÈS SÉCURISÉ</p><h2>Administrateur</h2><p>Connectez-vous avec le compte Firebase dont l’UID est autorisé dans les règles Firestore.</p>
+              <form id="admin-login" class="admin-form"><label>E-mail<input name="email" type="email" autocomplete="username" required></label><label>Mot de passe<input name="password" type="password" autocomplete="current-password" required></label><div class="form-actions"><button class="admin-btn" type="submit">Se connecter</button><button class="admin-btn secondary" id="admin-logout" type="button">Se déconnecter</button></div></form>
+              <p id="auth-status" class="auth-status">Non connecté.</p>
+              <hr><p class="admin-kicker">PRÉPARER LA BASE</p><h2>Initialiser Firestore</h2><p>Crée les documents de schéma dans <code>products</code>, <code>categories</code> et <code>customers</code>, sans écraser les documents existants. La base et les règles doivent déjà être créées dans Firebase.</p><button class="admin-btn secondary" id="initialize" type="button">Initialiser les collections ↗</button><p class="helper">N’ajoute pas de fausses données et ne publie pas les règles de sécurité.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <dialog id="edit-dialog" class="edit-dialog" aria-labelledby="edit-title">
+    <form id="edit-form" class="admin-form">
+      <div class="dialog-heading"><div><p class="admin-kicker" id="edit-kicker">ADMINISTRATION</p><h2 id="edit-title"></h2></div><button type="button" class="close-edit" aria-label="Fermer">×</button></div>
+      <div id="edit-fields"></div>
+      <div class="form-actions"><button class="admin-btn" type="submit">Enregistrer</button><button class="admin-btn secondary close-edit" type="button">Annuler</button></div>
+    </form>
+  </dialog>
+</body>
+</html>

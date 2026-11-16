@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mon compte — La CAV’</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="admin.css"><script src="firebase-config.js" defer></script><script src="data.js" defer></script><script src="account.js" defer></script></head>
+<body class="admin-body">
+  <main class="account-wrap">
+    <a class="admin-logo" href="index.html">la cav’<small>← RETOUR À LA BOUTIQUE</small></a>
+    <p class="admin-kicker">VOTRE ESPACE PERSONNEL</p><h1>Bonjour <em>vous.</em></h1>
+    <p id="account-notice" class="admin-alert">Cette fonctionnalité nécessite un projet Firebase configuré par l’administrateur.</p>
+    <p id="account-feedback" class="feedback" role="status" aria-live="polite" hidden></p>
+    <section class="panel-card" id="auth-panel"><p class="admin-kicker">MON COMPTE</p><h2>Se connecter ou s’inscrire</h2><p>L’inscription crée un compte Firebase Authentication et un profil dans Firestore. Utilisez uniquement des données de test pour ce prototype.</p>
+      <form class="admin-form" id="account-form"><label>Nom <input name="name" maxlength="100" placeholder="Requis pour l’inscription"></label><label>E-mail <input name="email" type="email" autocomplete="email" required></label><label>Mot de passe <input name="password" type="password" autocomplete="current-password" minlength="6" required></label><div class="account-actions"><button class="admin-btn" type="submit" name="action" value="signin">Se connecter</button><button class="admin-btn secondary" type="submit" name="action" value="register">Créer mon compte</button></div></form>
+    </section>
+    <section class="panel-card" id="profile-panel" hidden><p class="admin-kicker">VOTRE PROFIL</p><h2>Mon espace</h2><p id="account-email"></p><form class="admin-form" id="profile-form"><label>Nom <input name="name" maxlength="100" required></label><div class="account-actions"><button class="admin-btn" type="submit">Enregistrer mon profil</button><button class="admin-btn secondary" type="button" id="account-logout">Se déconnecter</button></div></form><p class="helper">La modification ou la suppression des identifiants n’est pas encore disponible dans ce prototype.</p></section>
+  </main>
+</body>
+</html>

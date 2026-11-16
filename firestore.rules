@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Remplacez cette valeur dans la console par l'UID du compte administrateur.
+    function isAdmin() {
+      return request.auth != null && request.auth.uid == "REMPLACER_PAR_UID_ADMIN";
+    }
+    function productValid(data) {
+      return data.keys().hasAll(['title', 'category', 'priceCents', 'condition', 'image', 'description', 'status', 'seller', 'demo'])
+        && data.keys().hasOnly(['title', 'category', 'priceCents', 'condition', 'image', 'description', 'status', 'seller', 'demo'])
+        && data.title is string && data.title.size() > 0 && data.title.size() <= 120
+        && data.category is string && data.category.size() > 0 && data.category.size() <= 60
+        && data.priceCents is int && data.priceCents >= 0 && data.priceCents <= 100000000
+        && data.condition in ['Neuf', 'Très bon état', 'Bon état', 'État correct']
+        && data.image is string && data.image.size() > 0 && data.image.size() <= 1000
+        && data.description is string && data.description.size() > 0 && data.description.size() <= 2000
+        && data.status in ['draft', 'published', 'archived']
+        && data.seller is string && data.seller.size() > 0 && data.seller.size() <= 100
+        && data.demo is bool;
+    }
+    function categoryValid(data) {
+      return data.keys().hasOnly(['name']) && data.keys().hasAll(['name'])
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 60;
+    }
+    function customerValid(data) {
+      return data.keys().hasAll(['name', 'email', 'createdAt'])
+        && data.keys().hasOnly(['name', 'email', 'createdAt'])
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 254
+        && data.createdAt is string && data.createdAt.size() <= 40;
+    }
+    match /admin/{document} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+    match /products/{productId} {
+      allow read: if isAdmin() || resource.data.status == 'published';
+      allow create, update: if isAdmin() && (productId == '_schema' || productValid(request.resource.data));
+      allow delete: if isAdmin() && productId != '_schema';
+    }
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && (categoryId == '_schema' || categoryValid(request.resource.data));
+      allow delete: if isAdmin() && categoryId != '_schema';
+    }
+    match /customers/{customerId} {
+      allow read: if isAdmin() || (request.auth != null && request.auth.uid == customerId && customerId != '_schema');
+      allow create: if (isAdmin() && (customerId == '_schema' || customerValid(request.resource.data)))
+        || (request.auth != null && request.auth.uid == customerId && customerId != '_schema'
+          && customerValid(request.resource.data) && request.resource.data.email == request.auth.token.email);
+      allow update: if (isAdmin() && (customerId == '_schema' || customerValid(request.resource.data)))
+        || (request.auth != null && request.auth.uid == customerId && customerId != '_schema'
+          && customerValid(request.resource.data)
+          && request.resource.data.email == resource.data.email
+          && request.resource.data.createdAt == resource.data.createdAt);
+      allow delete: if isAdmin() && customerId != '_schema';
+    }
+  }
+}

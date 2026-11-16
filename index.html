@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2eb">
+  <meta name="description" content="La CAV' : une nouvelle histoire pour les objets qui méritent de durer. Prototype de marketplace.">
+  <title>La CAV' — Les belles histoires continuent</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="firebase-config.js" defer></script>
+  <script src="data.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M5 19 19 5M7 5h12v12"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4 4"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.5 8.8c0 4.2-8.5 9.5-8.5 9.5S3.5 13 3.5 8.8a4.5 4.5 0 0 1 8.5-2 4.5 4.5 0 0 1 8.5 2Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  </svg>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+  <div class="announcement"><span class="announcement-dot"></span> UN NOUVEAU REGARD SUR LA SECONDE MAIN <span class="announcement-extra">· CHINEZ. ACHETEZ. VENDEZ.</span></div>
+  <header class="header">
+    <a class="logo" href="#accueil" aria-label="La CAV', accueil">la cav<span>’</span><small>CHINEZ. ACHETEZ. VENDEZ.</small></a>
+    <nav class="desktop-nav" aria-label="Navigation principale">
+      <a href="#selection">Découvrir</a>
+      <a href="#categories">Catégories</a>
+      <a href="#histoire">Notre esprit</a>
+      <a href="account.html">Mon compte</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button search-trigger" type="button" aria-label="Rechercher"><svg><use href="#i-search"></use></svg></button>
+      <button class="icon-button favorites-trigger" type="button" aria-label="Voir mes favoris" aria-pressed="false"><svg><use href="#i-heart"></use></svg><span class="favorite-count" hidden>0</span></button>
+      <a class="header-sell" href="#vendre">Vendre un objet <svg><use href="#i-up"></use></svg></a>
+      <button class="icon-button menu-trigger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu"><svg><use href="#i-menu"></use></svg></button>
+    </div>
+    <nav id="mobile-menu" class="mobile-menu" aria-label="Navigation mobile" hidden>
+      <a href="#selection">Découvrir <span>↗</span></a><a href="#categories">Catégories <span>↗</span></a><a href="#histoire">Notre esprit <span>↗</span></a><a href="#vendre">Vendre un objet <span>↗</span></a><a href="account.html">Mon compte <span>↗</span></a><a href="admin.html">Admin <span>↗</span></a>
+    </nav>
+  </header>
+
+  <main id="contenu">
+    <section class="hero" id="accueil">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="tiny-star">✳</span> LA PLACE DES OBJETS QUI DURENT</div>
+        <h1>Les belles<br>histoires <em>continuent.</em></h1>
+        <p>Les objets ont une vie avant nous.<br>À nous d’imaginer la suite.</p>
+        <div class="hero-actions"><a class="button button-dark" href="#selection">Explorer les trouvailles <svg><use href="#i-arrow"></use></svg></a><a class="text-link" href="#histoire">Découvrir La CAV’ <span>↗</span></a></div>
+        <div class="hero-note"><span class="note-mark">↳</span><span>UNE AUTRE FAÇON<br>DE TROUVER LE BEAU.</span></div>
+      </div>
+      <div class="hero-visual">
+        <img src="assets/images/interior.jpg" alt="Lampe noire sur un mur vert pâle">
+        <div class="hero-image-label"><span>LA CAV’ / OBJETS CHOISIS</span><span>01 — 06</span></div>
+        <div class="hero-stamp" aria-hidden="true"><span>LES OBJETS</span><strong>ont une<br>histoire.</strong><span>LA CAV’ ✳</span></div>
+      </div>
+      <div class="hero-bottom"><span>DES OBJETS À DÉCOUVRIR, DES HISTOIRES À CONTINUER.</span><span>FAITES DÉFILER ↓</span></div>
+    </section>
+
+    <div class="marquee" aria-label="Chinez, achetez, vendez"><div>CHINEZ <span>✳</span> ACHETEZ <span>✳</span> VENDEZ <span>✳</span> RECOMMENCEZ <span>✳</span> CHINEZ <span>✳</span> ACHETEZ <span>✳</span> VENDEZ <span>✳</span> RECOMMENCEZ <span>✳</span></div></div>
+
+    <section class="categories section-wrap" id="categories">
+      <div class="section-top"><div><p class="eyebrow"><span class="tiny-star">✳</span> SUIVEZ VOTRE CURIOSITÉ</p><h2>À chacun sa <em>trouvaille.</em></h2></div><p>Une envie précise ou simplement le plaisir de chiner ? Commencez par ici.</p></div>
+      <div class="category-grid">
+        <button class="category-card" type="button" data-category="Maison"><img src="assets/images/interior.jpg" alt=""><span class="category-number">01 / 04</span><span class="category-name">Maison <span>↗</span></span></button>
+        <button class="category-card" type="button" data-category="Mode"><img src="assets/images/fashion.jpg" alt=""><span class="category-number">02 / 04</span><span class="category-name">Mode <span>↗</span></span></button>
+        <button class="category-card" type="button" data-category="Bijoux"><img src="assets/images/jewelry.jpg" alt=""><span class="category-number">03 / 04</span><span class="category-name">Bijoux <span>↗</span></span></button>
+        <button class="category-card" type="button" data-category="Accessoires"><img src="assets/images/objects.jpg" alt=""><span class="category-number">04 / 04</span><span class="category-name">Accessoires <span>↗</span></span></button>
+      </div>
+      <p class="empty-state" id="categories-placeholder" hidden>Retrouvez les collections disponibles dans les filtres du catalogue.</p>
+    </section>
+
+    <section class="selection section-wrap" id="selection">
+      <div class="section-top selection-heading"><div><p class="eyebrow"><span class="tiny-star">✳</span> DE BELLES CHOSES, TOUT SIMPLEMENT</p><h2>La sélection du <em>moment.</em></h2></div><p>Des pièces singulières, prêtes à écrire leur prochain chapitre.</p></div>
+      <div class="catalog-toolbar">
+        <div class="filter-list" aria-label="Filtrer par catégorie">
+          <button type="button" class="filter active" data-filter="Tout" aria-pressed="true">Tout voir</button>
+          <button type="button" class="filter" data-filter="Maison" aria-pressed="false">Maison</button>
+          <button type="button" class="filter" data-filter="Mode" aria-pressed="false">Mode</button>
+          <button type="button" class="filter" data-filter="Bijoux" aria-pressed="false">Bijoux</button>
+          <button type="button" class="filter" data-filter="Accessoires" aria-pressed="false">Accessoires</button>
+        </div>
+        <label class="catalog-search"><svg><use href="#i-search"></use></svg><span class="sr-only">Rechercher dans les objets</span><input id="search" type="search" placeholder="Rechercher un objet..."></label>
+      </div>
+      <div class="catalog-meta"><span id="results-count" aria-live="polite"></span><span>PROTOTYPE · ACHATS ET PAIEMENTS DÉSACTIVÉS</span></div>
+      <div class="product-grid" id="product-grid"></div>
+      <p class="empty-state" id="empty-state" hidden>Aucune trouvaille ici pour le moment. Essayez une autre recherche.</p>
+      <noscript><p class="empty-state">Activez JavaScript dans votre navigateur pour explorer le catalogue de démonstration.</p></noscript>
+      <div class="catalog-footer"><button class="button button-outline" id="reset-filters" type="button">Voir toutes les trouvailles <svg><use href="#i-arrow"></use></svg></button></div>
+    </section>
+
+    <section class="story" id="histoire">
+      <div class="story-image"><img src="assets/images/objects.jpg" alt="Lunettes de soleil posées sur une surface claire"><span>LE GOÛT DES CHOSES QUI RESTENT / 01</span></div>
+      <div class="story-copy"><p class="eyebrow"><span class="tiny-star">✳</span> NOTRE PHILOSOPHIE</p><h2>Moins de neuf.<br><em>Plus d’histoires.</em></h2><p>Un objet qui a déjà vécu n’a rien perdu de sa beauté. Au contraire, il a gagné quelque chose : une histoire, un caractère, une âme.</p><p>La CAV’, c’est le plaisir de chercher, de trouver et de transmettre. Pour faire circuler ce qui mérite de durer.</p><a class="text-link light-link" href="#selection">Partir à la découverte <span>↗</span></a><span class="story-decoration" aria-hidden="true">✳</span></div>
+    </section>
+
+    <section class="how section-wrap" id="vendre">
+      <div class="section-top"><div><p class="eyebrow"><span class="tiny-star">✳</span> RIEN NE SE PERD, TOUT SE TRANSMET</p><h2>La seconde main,<br><em>en première intention.</em></h2></div><p>La CAV’ imagine une autre manière de faire circuler les objets que l’on aime.</p></div>
+      <div class="steps">
+        <article><span class="step-number">01 / CHINER</span><div class="step-icon">⌕</div><h3>La joie de chercher.</h3><p>Flânez parmi les objets et laissez-vous surprendre par une pièce qui vous ressemble.</p></article>
+        <article><span class="step-number">02 / TROUVER</span><div class="step-icon">♡</div><h3>Le plaisir du coup de cœur.</h3><p>Gardez vos découvertes en favoris et imaginez leur nouvelle place chez vous.</p></article>
+        <article><span class="step-number">03 / TRANSMETTRE</span><div class="step-icon">↗</div><h3>Et l’histoire continue.</h3><p>Demain, donnez à vos objets la chance de trouver une nouvelle histoire.</p></article>
+      </div>
+      <div class="prototype-note"><strong>Vous souhaitez vendre ?</strong><span>Ce site est un prototype : la publication par les vendeurs et les transactions ne sont pas encore disponibles.</span></div>
+    </section>
+  </main>
+  <footer class="footer"><div class="footer-main"><div><a class="footer-logo" href="#accueil">la cav’</a><p>Les belles histoires continuent.</p></div><div class="footer-links"><div><span>EXPLORER</span><a href="#selection">Les trouvailles</a><a href="#categories">Les catégories</a></div><div><span>LA CAV’</span><a href="#histoire">Notre esprit</a><a href="#vendre">Vendre un objet</a></div></div><div class="footer-sign">FAIT POUR<br><em>circuler.</em> <span>✳</span></div></div><div class="footer-bottom"><span>© LA CAV’ — PROTOTYPE DE DÉMONSTRATION</span><span>AUCUN ACHAT NI PAIEMENT RÉEL</span><a href="#accueil">REMONTER ↑</a></div></footer>
+
+  <dialog id="product-dialog" class="product-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-inner"><button class="dialog-close icon-button" type="button" aria-label="Fermer"><svg><use href="#i-close"></use></svg></button><div class="dialog-image"><img id="dialog-image" src="assets/images/interior.jpg" alt=""></div><div class="dialog-copy"><p class="eyebrow" id="dialog-label">✳ FICHE ARTICLE · PROTOTYPE</p><p class="dialog-category" id="dialog-category"></p><h2 id="dialog-title"></h2><p class="dialog-price" id="dialog-price"></p><p id="dialog-description"></p><div class="dialog-info"><span>ÉTAT <strong id="dialog-condition"></strong></span><span>VENDEUR <strong id="dialog-seller"></strong></span></div><p class="dialog-disclaimer">Ceci est un prototype. Aucun paiement, commande ou contact vendeur réel n’est possible.</p><button class="button button-dark dialog-favorite" type="button">Ajouter aux favoris <svg><use href="#i-heart"></use></svg></button></div></div>
+  </dialog>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+</body>
+</html>
