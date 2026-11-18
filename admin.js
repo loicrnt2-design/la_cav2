@@ -24,6 +24,10 @@ function requireAccess() {
 function safeImage(value) {
   return /^(assets\/images\/[a-zA-Z0-9._-]+|https:\/\/[^\s"'<>]+)$/i.test(value);
 }
+function displayImage(value) {
+  if (/^assets\/images\/(interior|chair|objects|jewelry|watch|fashion)\.jpg$/i.test(value || "")) return value.slice("assets/images/".length);
+  return safeImage(value) ? value : "interior.jpg";
+}
 function render() {
   $("#stat-products").textContent = products.length;
   $("#stat-published").textContent = products.filter(item => item.status === "published").length;
@@ -31,7 +35,7 @@ function render() {
   $("#stat-customers").textContent = customers.length;
   const term = $("#product-search").value.toLocaleLowerCase("fr");
   const visible = products.filter(item => `${item.title} ${item.category}`.toLocaleLowerCase("fr").includes(term));
-  $("#products-table").innerHTML = visible.map(item => `<tr><td><div class="item-cell"><img src="${escapeHTML(safeImage(item.image) ? item.image : "assets/images/interior.jpg")}" alt=""><div><strong>${escapeHTML(item.title)}</strong><small>${escapeHTML(item.seller)}</small></div></div></td><td>${escapeHTML(item.category)}</td><td>${money(item.priceCents)}</td><td><span class="tag ${item.status === "published" ? "" : "draft"}">${item.status === "published" ? "Publié" : item.status === "archived" ? "Archivé" : "Brouillon"}</span></td><td><div class="row-actions"><button data-edit="products" data-id="${escapeHTML(item.id)}">Modifier</button><button class="delete" data-delete="products" data-id="${escapeHTML(item.id)}">Supprimer</button></div></td></tr>`).join("");
+  $("#products-table").innerHTML = visible.map(item => `<tr><td><div class="item-cell"><img src="${escapeHTML(displayImage(item.image))}" alt=""><div><strong>${escapeHTML(item.title)}</strong><small>${escapeHTML(item.seller)}</small></div></div></td><td>${escapeHTML(item.category)}</td><td>${money(item.priceCents)}</td><td><span class="tag ${item.status === "published" ? "" : "draft"}">${item.status === "published" ? "Publié" : item.status === "archived" ? "Archivé" : "Brouillon"}</span></td><td><div class="row-actions"><button data-edit="products" data-id="${escapeHTML(item.id)}">Modifier</button><button class="delete" data-delete="products" data-id="${escapeHTML(item.id)}">Supprimer</button></div></td></tr>`).join("");
   $("#products-empty").hidden = visible.length > 0;
   $("#categories-list").innerHTML = categories.map(item => `<div class="collection-item"><div><strong>${escapeHTML(item.name)}</strong><small>${products.filter(product => product.category === item.name).length} article(s)</small></div><div class="row-actions"><button data-edit="categories" data-id="${escapeHTML(item.id)}">Modifier</button><button class="delete" data-delete="categories" data-id="${escapeHTML(item.id)}">Supprimer</button></div></div>`).join("");
   $("#categories-empty").hidden = categories.length > 0;

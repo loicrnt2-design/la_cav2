@@ -8,7 +8,7 @@ Le catalogue initial, les prix et les descriptions sont fictifs ; les photos son
 
 Ouvrir `index.html`, puis **Admin**. Les modifications restent dans le stockage local du navigateur ; elles ne sont ni partagées ni sauvegardées dans un serveur. Selon le navigateur, le stockage des pages ouvertes en `file://` peut être isolé ou désactivé : si la vitrine ne retrouve pas les modifications, utiliser un hébergement statique local ou HTTPS, sans Node.js. Ne pas effacer les données du navigateur si vous souhaitez conserver les données locales. L’administration locale n’a pas de mot de passe et n’offre aucune protection.
 
-Dans **Articles**, créer, modifier, publier, archiver et supprimer des fiches ; l’image est une URL HTTPS ou le chemin d’un fichier déjà présent dans `assets/images`. Il n’y a pas d’envoi de fichier ni de stockage d’image. Une collection utilisée par un article ne peut pas être renommée ou supprimée avant déplacement des articles. **Clients** permet de créer des profils de démonstration locaux : ils ne permettent pas de se connecter.
+Dans **Articles**, créer, modifier, publier, archiver et supprimer des fiches ; l’image est une URL HTTPS ou un chemin `assets/images/…`. Les six images de démonstration existantes se trouvent à la racine du projet et leurs anciens chemins sont adaptés à l’affichage. Il n’y a pas d’envoi de fichier ni de stockage d’image. Une collection utilisée par un article ne peut pas être renommée ou supprimée avant déplacement des articles. **Clients** permet de créer des profils de démonstration locaux : ils ne permettent pas de se connecter.
 
 ## Configuration Firebase (facultative, Internet nécessaire)
 
