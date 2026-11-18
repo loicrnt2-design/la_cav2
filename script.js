@@ -46,8 +46,41 @@ motionToggle.addEventListener("click", () => {
   const paused = document.body.classList.toggle("motion-paused");
   motionToggle.setAttribute("aria-pressed", String(paused));
   motionToggle.textContent = paused ? "Reprendre les animations" : "Mettre les animations en pause";
-  if (paused) document.querySelector(".hero-visual").style.removeProperty("--hero-shift");
+  if (paused) {
+    document.querySelector(".hero-visual").style.removeProperty("--hero-shift");
+    clearPointerMotion();
+  }
   else updateScrollMotion();
+});
+
+function clearPointerMotion() {
+  document.querySelectorAll(".pointer-active").forEach(element => {
+    element.style.removeProperty("--pointer-x");
+    element.style.removeProperty("--pointer-y");
+    element.classList.remove("pointer-active");
+  });
+}
+
+document.addEventListener("pointermove", event => {
+  if (event.pointerType !== "mouse" || reducedMotion.matches || document.body.classList.contains("motion-paused")) return;
+  const target = event.target.closest(".hero-visual, .category-card, .product-image, .artisan-image");
+  if (!target) return;
+  const rect = target.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  const x = Math.max(-1, Math.min(1, (event.clientX - rect.left) / rect.width * 2 - 1));
+  const y = Math.max(-1, Math.min(1, (event.clientY - rect.top) / rect.height * 2 - 1));
+  target.classList.add("pointer-active");
+  target.style.setProperty("--pointer-x", `${x * -10}px`);
+  target.style.setProperty("--pointer-y", `${y * -10}px`);
+}, { passive: true });
+
+document.addEventListener("pointerout", event => {
+  const target = event.target.closest(".pointer-active");
+  if (target && !target.contains(event.relatedTarget)) {
+    target.style.removeProperty("--pointer-x");
+    target.style.removeProperty("--pointer-y");
+    target.classList.remove("pointer-active");
+  }
 });
 
 let scrollFrame = 0;
@@ -68,6 +101,7 @@ reducedMotion.addEventListener("change", () => {
   motionToggle.hidden = reducedMotion.matches;
   if (reducedMotion.matches) {
     document.querySelector(".hero-visual").style.removeProperty("--hero-shift");
+    clearPointerMotion();
   } else {
     updateScrollMotion();
     observeReveals(document.querySelectorAll(revealSelector));
@@ -215,7 +249,7 @@ function openProduct(product) {
   document.querySelector("#dialog-description").textContent = product.description;
   document.querySelector("#dialog-condition").textContent = product.condition;
   document.querySelector("#dialog-seller").textContent = product.seller;
-  document.querySelector("#dialog-label").textContent = "✳ ANNONCE FICTIVE · PHOTO D’ILLUSTRATION";
+  document.querySelector("#dialog-label").textContent = "• ANNONCE FICTIVE · PHOTO D’ILLUSTRATION";
   updateFavoriteUI();
   dialog.showModal();
 }
