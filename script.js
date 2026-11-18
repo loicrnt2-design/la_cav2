@@ -19,6 +19,62 @@ let favorites = new Set();
 let cart = [];
 let statusTimer;
 
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const revealSelector = ".section-top, .category-card, .story-image, .story-copy, .feature-card, .artisan-item, .steps article, .newsletter-content, .footer-main, .product-card";
+const motionToggle = document.querySelector(".motion-toggle");
+const revealObserver = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("is-revealed");
+      revealObserver.unobserve(entry.target);
+    }
+  }
+}, { threshold: 0.08 }) : null;
+
+function observeReveals(elements) {
+  if (!revealObserver || reducedMotion.matches) return;
+  for (const element of elements) {
+    if (element.classList.contains("is-revealed")) continue;
+    element.classList.add("reveal");
+    revealObserver.observe(element);
+  }
+}
+
+observeReveals(document.querySelectorAll(revealSelector));
+motionToggle.hidden = reducedMotion.matches;
+motionToggle.addEventListener("click", () => {
+  const paused = document.body.classList.toggle("motion-paused");
+  motionToggle.setAttribute("aria-pressed", String(paused));
+  motionToggle.textContent = paused ? "Reprendre les animations" : "Mettre les animations en pause";
+  if (paused) document.querySelector(".hero-visual").style.removeProperty("--hero-shift");
+  else updateScrollMotion();
+});
+
+let scrollFrame = 0;
+function updateScrollMotion() {
+  scrollFrame = 0;
+  if (reducedMotion.matches || document.body.classList.contains("motion-paused")) return;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  document.querySelector(".scroll-progress").style.transform = `scaleX(${maxScroll > 0 ? window.scrollY / maxScroll : 0})`;
+  const hero = document.querySelector(".hero-visual");
+  if (hero.getBoundingClientRect().bottom > 0) {
+    hero.style.setProperty("--hero-shift", `${Math.min(window.scrollY * 0.1, 45)}px`);
+  }
+}
+window.addEventListener("scroll", () => {
+  if (!reducedMotion.matches && !document.body.classList.contains("motion-paused") && !scrollFrame) scrollFrame = requestAnimationFrame(updateScrollMotion);
+}, { passive: true });
+reducedMotion.addEventListener("change", () => {
+  motionToggle.hidden = reducedMotion.matches;
+  if (reducedMotion.matches) {
+    document.querySelector(".hero-visual").style.removeProperty("--hero-shift");
+  } else {
+    updateScrollMotion();
+    observeReveals(document.querySelectorAll(revealSelector));
+  }
+});
+updateScrollMotion();
+
 function announce(message) {
   const status = document.querySelector("#status");
   status.textContent = message;
@@ -110,6 +166,7 @@ function renderProducts() {
     (!favoritesOnly || favorites.has(product.id)) &&
     normalize(`${product.title} ${product.category} ${product.description}`).includes(term)
   );
+  if (revealObserver) grid.querySelectorAll(".reveal").forEach(card => revealObserver.unobserve(card));
   grid.replaceChildren();
   for (const product of visible) {
     const card = document.createElement("article");
@@ -125,6 +182,7 @@ function renderProducts() {
     card.querySelector(".product-heart").addEventListener("click", () => toggleFavorite(product.id));
     grid.append(card);
   }
+  observeReveals(grid.querySelectorAll(".product-card"));
   document.querySelector("#results-count").textContent = `${visible.length} ${visible.length > 1 ? "TROUVAILLES" : "TROUVAILLE"}${favoritesOnly ? " EN FAVORIS" : ""}`;
   document.querySelector("#empty-state").hidden = visible.length > 0;
   updateFavoriteUI();
@@ -170,18 +228,18 @@ document.querySelectorAll(".category-card").forEach(button => button.addEventLis
   favoritesOnly = false;
   search.value = "";
   setCategory(button.dataset.category);
-  document.querySelector("#selection").scrollIntoView({ behavior: "smooth" });
+  document.querySelector("#selection").scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth" });
 }));
 search.addEventListener("input", renderProducts);
 document.querySelector(".search-trigger").addEventListener("click", () => {
-  document.querySelector("#selection").scrollIntoView({ behavior: "smooth" });
+  document.querySelector("#selection").scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth" });
   search.focus({ preventScroll: true });
 });
 favoritesTrigger.addEventListener("click", () => {
   favoritesOnly = !favoritesOnly;
   search.value = "";
   setCategory("Tout");
-  document.querySelector("#selection").scrollIntoView({ behavior: "smooth" });
+  document.querySelector("#selection").scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth" });
 });
 cartTrigger.addEventListener("click", () => {
   announce(`Panier · ${cart.length} ${cart.length > 1 ? "articles" : "article"}`);

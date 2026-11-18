@@ -6,13 +6,14 @@
   <meta name="theme-color" content="#f5f2eb">
   <meta name="description" content="La CAV' : une nouvelle histoire pour les objets qui méritent de durer. Prototype de marketplace.">
   <title>La CAV' — Les belles histoires continuent</title>
-  <link rel="stylesheet" href="style.css?v=20261118">
+  <link rel="stylesheet" href="style.css?v=20261118-2">
   <script src="firebase-config.js" defer></script>
   <script src="bootstrap.js" defer></script>
   <script src="data.js?v=20261118" defer></script>
-  <script src="script.js?v=20261118" defer></script>
+  <script src="script.js?v=20261118-2" defer></script>
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
     <symbol id="i-up" viewBox="0 0 24 24"><path d="M5 19 19 5M7 5h12v12"/></symbol>
@@ -63,7 +64,7 @@
       <div class="hero-bottom"><span>DES OBJETS À DÉCOUVRIR, DES HISTOIRES À CONTINUER.</span><span>FAITES DÉFILER ↓</span></div>
     </section>
 
-    <div class="marquee" aria-label="Chinez, achetez, vendez"><div>CHINEZ <span>✳</span> ACHETEZ <span>✳</span> VENDEZ <span>✳</span> RECOMMENCEZ <span>✳</span> CHINEZ <span>✳</span> ACHETEZ <span>✳</span> VENDEZ <span>✳</span> RECOMMENCEZ <span>✳</span></div></div>
+    <div class="marquee" aria-label="Chinez, achetez, vendez"><div class="marquee-track" aria-hidden="true"><div class="marquee-group">CHINEZ <span>✳</span> ACHETEZ <span>✳</span> VENDEZ <span>✳</span> RECOMMENCEZ <span>✳</span></div><div class="marquee-group">CHINEZ <span>✳</span> ACHETEZ <span>✳</span> VENDEZ <span>✳</span> RECOMMENCEZ <span>✳</span></div></div><button class="motion-toggle" type="button" aria-pressed="false" hidden>Mettre les animations en pause</button></div>
 
     <section class="categories section-wrap" id="categories">
       <div class="section-top"><div><p class="eyebrow"><span class="tiny-star">✳</span> SUIVEZ VOTRE INTUITION</p><h2>Quatre univers<br><em>à explorer.</em></h2></div><p>Du mobilier historique aux créations artisanales, trouvez les pièces qui résonnent avec vous.</p></div>
